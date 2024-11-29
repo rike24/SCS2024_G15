@@ -10,6 +10,7 @@
     - Cellular automata
     - swarming behavior for crowd can be applicable
     - arena of different floors, movement on stairs, time model for travelling down
+
 What are save emergency exit designs for a skyscraper?
 
 ## Deforestation:
@@ -23,5 +24,6 @@ What are save emergency exit designs for a skyscraper?
   -	Is the forest resilient on a larger time scale?
   -	How fast are the trees growing, and which percentage can be harvested?
 -	Climate effects on forest for future prognosis
+
 What makes a healthy and economically agricultural forest?
 
