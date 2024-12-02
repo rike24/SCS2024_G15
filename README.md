@@ -11,3 +11,23 @@ As an initial step, we will model a simplified forest with a single tree species
 In subsequent stages, we aim to explore how the presence of multiple tree species influences the overall stability of the forest ecosystem. 
 Further possibilities of our models are the introduction of other diseases.
 
+Agenda:
+
+Deadline simulations: 12/12
+
+Main simulation:
+ - Grow forest
+ - Spread disease
+ - Periodic boundary conditions
+ - Cut down infected trees
+ - Add another species
+
+Measures:
+ - Value of forest function
+ - Time taken for forest to reach desired value
+
+Poster:
+ - Research
+ - Design of poster (Megan)
+
+Report:
