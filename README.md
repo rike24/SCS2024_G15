@@ -16,18 +16,19 @@ Agenda:
 Deadline simulations: 12/12
 
 Main simulation:
- - Grow forest
- - Spread disease
- - Periodic boundary conditions
- - Cut down infected trees
- - Add another species
+ - Main (Marcus)
+ - Update Lattice (call on grow forest, spread disease) (Megan)
+ - Grow forest (Herman)
+ - Spread disease (Zishan)
+ - Periodic boundary conditions (Brian)
+ - Harvest/Value of Forest (check value of forest + harvest)? (Marike)
+
 
 Measures:
- - Value of forest function
  - Time taken for forest to reach desired value
 
 Poster:
- - Research
+ - Research: Can trees heal after getting infected by fungi, do they become immune?
  - Design of poster (Megan)
 
 Report:
