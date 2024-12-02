@@ -11,3 +11,24 @@ As an initial step, we will model a simplified forest with a single tree species
 In subsequent stages, we aim to explore how the presence of multiple tree species influences the overall stability of the forest ecosystem. 
 Further possibilities of our models are the introduction of other diseases.
 
+Agenda:
+
+Deadline simulations: 12/12
+
+Main simulation:
+ - Main (Marcus)
+ - Update Lattice (call on grow forest, spread disease) (Megan)
+ - Grow forest (Herman)
+ - Spread disease (Zishan)
+ - Periodic boundary conditions (Brian)
+ - Harvest/Value of Forest (check value of forest + harvest)? (Marike)
+
+
+Measures:
+ - Time taken for forest to reach desired value
+
+Poster:
+ - Research: Can trees heal after getting infected by fungi, do they become immune?
+ - Design of poster (Megan)
+
+Report:
