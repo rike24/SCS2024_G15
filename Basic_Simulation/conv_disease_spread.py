@@ -28,6 +28,7 @@ def SpreadDisease(forest, infected_positions_i, infected_positions_j, pSpread):
     healthy_state = -1 # state of healthy trees
     empty_state = 0 # state of empty cells
 
+
     # filter of infected trees
     infected_matrix = np.zeros(forest.shape)
     infected_matrix[infected_positions_i, infected_positions_j] = infected_state
@@ -46,14 +47,12 @@ def SpreadDisease(forest, infected_positions_i, infected_positions_j, pSpread):
     # intersection of infected trees and healthy trees
     infected_matrix = infected_matrix * (forest == healthy_state)
     # update the forest
-    forest[infected_matrix] = infected_state
-    
-
+    forest[infected_matrix == infected_state] = infected_state
     return forest
 # %%
-N = 10000
+N = 7
 # random forest with 10% of trees infected.
-initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.9, 0.09, 0.01])
+initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.95, 0.0, 0.05])
 # plot the forest
 import matplotlib.pyplot as plt
 plt.imshow(initial_forest, cmap='viridis')
@@ -65,7 +64,7 @@ plt.show()
 # Spread the disease
 # index of infected trees
 infected_index = np.where(initial_forest == 1)
-initial_forest = SpreadDisease(initial_forest, infected_index[0], infected_index[1] , 0.7)
+initial_forest = SpreadDisease(initial_forest, infected_index[0], infected_index[1] , 1)
 # plot the forest
 plt.imshow(initial_forest, cmap='viridis')
 plt.colorbar()
