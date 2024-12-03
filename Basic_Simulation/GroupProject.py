@@ -8,7 +8,7 @@ Created on Mon Dec  2 08:21:52 2024
 import numpy as np
 
 #%% Function to grow trees in the forest.
-def GrowTrees(forest, p, ageList, infectionTime):
+def GrowTrees(forest, p):
     """
     Function to pgrow new trees in the forest.
     
@@ -22,7 +22,8 @@ def GrowTrees(forest, p, ageList, infectionTime):
     
     new_trees = np.random.rand(Ni, Nj) # Assign random values to each spot
     
-    new_trees_indices = np.where(new_trees <= p)
+    # Plant new trees in empty spots with probability p.
+    new_trees_indices = np.where((new_trees <= p) & (forest == 0))
     forest[new_trees_indices] = -1
     
     return forest
@@ -135,7 +136,7 @@ tk.bind("<Escape>", stop_loop)  # Bind the Escape key to stop the loop.
 running = True  # Flag to control the loop.
 while running:
 
-    forest = GrowTrees(forest, pGrowth, ageList, infectionTime)  # Grow new trees.
+    forest = GrowTrees(forest, pGrowth)  # Grow new trees.
     
     r = np.random.rand()
     if r < pInfection:  # Infection occurs.
