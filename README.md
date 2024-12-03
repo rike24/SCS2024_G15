@@ -16,8 +16,13 @@ Agenda:
 Deadline simulations: 12/12
 
 Main simulation:
+
+Variables:
+pGrowth, pDeath, pDisease
+
+
  - Main (Marcus)
- - Update Lattice (call on grow forest, spread disease) (Megan)
+ - Tree death: when infectionTimeList > infectionTime, set forest to zero (Megan)
  - Grow forest (Herman)
  - Spread disease (Zishan)
  - Periodic boundary conditions (Brian)
