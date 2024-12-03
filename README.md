@@ -22,10 +22,9 @@ pGrowth, pDeath, pDisease
 
 
  - Main (Marcus)
- - Tree death: when infectionTimeList > infectionTime, set forest to zero (Megan)
+ - Tree death: when infectionTimeList > infectionTime, set forest (and ageList) to zero (Brian)
  - Grow forest (Herman)
  - Spread disease (Zishan)
- - Periodic boundary conditions (Brian)
  - Harvest/Value of Forest (check value of forest + harvest)? (Marike)
 
 
