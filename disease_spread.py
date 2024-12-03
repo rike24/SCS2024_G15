@@ -3,78 +3,87 @@
 Created on Tue Dec  3 06:11:00 2024
 
 @author: zishan
-"""
 
+All infected trees execute disease spreading for one time
+"""
+#%%
 import numpy as np
 
 #%% Function to spread the disease.
-def SpreadDisease(forest, i0, j0, pSpread):
+def SpreadDisease(forest, infected_positions_i, infected_positions_j, pSpread):
     """
     Function to propagate the disease on a populated forest.
     
     Parameters
     ==========
-    forest : 2-dimensional array.
-    i0 : First index of the cell where the disease occurs.
-    j0 : Second index of the cell where the disease occurs.
+    forest : 2-dimensional array. -1 for healthy trees, 1 for infected trees, 0 for empty cells.
+    infected_positions_i & j : List of the coordinates of all infected trees.
+    pSpread : Probability of spreading the disease.
     """
     
     Ni, Nj = forest.shape  # Dimensions of the forest.
-
-    if forest[i0, j0] == -1:
-        active_i = [i0]  # Initialize the list.
-        active_j = [j0]  # Tnitialize the list. 
-        forest[i0, j0] = 1  # Infects the tree.
+    
+    active_i = infected_positions_i
+    active_j = infected_positions_j
         
-        while len(active_i) > 0:
-            next_i = []
-            next_j = []
-            for n in np.arange(len(active_i)):
-                # Coordinates of cell up.
-                i = (active_i[n] + 1) % Ni
-                j = active_j[n]
-                # Check status
-                if forest[i, j] == -1:
-                    r = np.random.rand()
-                    if r < pSpread:
-                        next_i.append(i)  # Add to list.
-                        next_j.append(j)  # Add to list.
-                        forest[i, j] = 1  # Infects the current tree.
+    if len(active_i) > 0:
+        for n in np.arange(len(active_i)):
+            # Coordinates of cell up.
+            i = (active_i[n] + 1) % Ni
+            j = active_j[n]
+            # Check status
+            if forest[i, j] == -1:
+                r = np.random.rand()
+                if r < pSpread:
+                    forest[i, j] = 1  # Infects the current tree.
 
-                # Coordinates of cell down.
-                i = (active_i[n] - 1) % Ni
-                j = active_j[n]
-                # Check status
-                if forest[i, j] == -1:
-                    r = np.random.rand()
-                    if r < pSpread:
-                        next_i.append(i)  # Add to list.
-                        next_j.append(j)  # Add to list.
-                        forest[i, j] = 1  # Infects the current tree.
+            # Coordinates of cell down.
+            i = (active_i[n] - 1) % Ni
+            j = active_j[n]
+            # Check status
+            if forest[i, j] == -1:
+                r = np.random.rand()
+                if r < pSpread:
+                    forest[i, j] = 1  # Infects the current tree.
 
-                # Coordinates of cell left.
-                i = active_i[n]
-                j = (active_j[n] - 1) % Nj
-                # Check status
-                if forest[i, j] == -1:
-                    r = np.random.rand()
-                    if r < pSpread:
-                        next_i.append(i)  # Add to list.
-                        next_j.append(j)  # Add to list.
-                        forest[i, j] = 1  # Infects the current tree.
+            # Coordinates of cell left.
+            i = active_i[n]
+            j = (active_j[n] - 1) % Nj
+            # Check status
+            if forest[i, j] == -1:
+                r = np.random.rand()
+                if r < pSpread:
+                    forest[i, j] = 1  # Infects the current tree.
 
-                # Coordinates of cell right.
-                i = active_i[n]
-                j = (active_j[n] + 1) % Nj
-                # Check status
-                if forest[i, j] == -1:
-                    r = np.random.rand()
-                    if r < pSpread:
-                        next_i.append(i)  # Add to list.
-                        next_j.append(j)  # Add to list.
-                        forest[i, j] = 1  # Infects the current tree.
+            # Coordinates of cell right.
+            i = active_i[n]
+            j = (active_j[n] + 1) % Nj
+            # Check status
+            if forest[i, j] == -1:
+                r = np.random.rand()
+                if r < pSpread:
+                    forest[i, j] = 1  # Infects the current tree.
 
-            active_i = next_i
-            active_j = next_j        
-            
     return forest
+# %%
+N = 100
+# random forest with 10% of trees infected.
+initial_forest = np.random.choice([-1, 1], size=(N, N), p=[0.9, 0.1])
+# plot the forest
+import matplotlib.pyplot as plt
+plt.imshow(initial_forest, cmap='viridis')
+plt.colorbar()
+plt.show()
+
+
+# %%
+# Spread the disease
+# index of infected trees
+infected_index = np.where(initial_forest == 1)
+new_forest = SpreadDisease(initial_forest, infected_index[0], infected_index[1] , 0.1)
+# plot the forest
+plt.imshow(new_forest, cmap='viridis')
+plt.colorbar()
+plt.show()
+
+# %%
