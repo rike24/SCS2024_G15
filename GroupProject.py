@@ -136,7 +136,9 @@ tk.bind("<Escape>", stop_loop)  # Bind the Escape key to stop the loop.
 running = True  # Flag to control the loop.
 while running:
 
-    forest = GrowTrees(forest, pGrowth)  # Grow new trees.
+    # Grow new trees.
+    if step % N_skip == 0:  
+        forest = GrowTrees(forest, pGrowth)
     
     r = np.random.rand()
     if r < pInfection:  # Infection occurs.
