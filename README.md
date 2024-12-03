@@ -15,12 +15,17 @@ Agenda:
 
 Deadline simulations: 12/12
 
-Main simulation:
+
+Index
+No tree = 0
+Species A = -1
+Species B = -2 (immune)
+Infected = 1
 
 Variables:
 pGrowth, pDeath, pDisease
 
-
+Main simulation:
  - Main (Marcus)
  - Tree death: when infectionTimeList > infectionTime, set forest (and ageList) to zero (Brian)
  - Grow forest (Herman)
@@ -36,3 +41,5 @@ Poster:
  - Design of poster (Megan)
 
 Report:
+ - Background (Megan)
+ - Method
