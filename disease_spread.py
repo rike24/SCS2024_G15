@@ -22,7 +22,7 @@ def SpreadDisease(forest, infected_positions_i, infected_positions_j, pSpread):
     """
     
     Ni, Nj = forest.shape  # Dimensions of the forest.
-    
+
     active_i = infected_positions_i
     active_j = infected_positions_j
         
@@ -68,7 +68,7 @@ def SpreadDisease(forest, infected_positions_i, infected_positions_j, pSpread):
 # %%
 N = 100
 # random forest with 10% of trees infected.
-initial_forest = np.random.choice([-1, 1], size=(N, N), p=[0.9, 0.1])
+initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.19, 0.8, 0.01])
 # plot the forest
 import matplotlib.pyplot as plt
 plt.imshow(initial_forest, cmap='viridis')
@@ -80,9 +80,9 @@ plt.show()
 # Spread the disease
 # index of infected trees
 infected_index = np.where(initial_forest == 1)
-new_forest = SpreadDisease(initial_forest, infected_index[0], infected_index[1] , 0.1)
+initial_forest = SpreadDisease(initial_forest, infected_index[0], infected_index[1] , 1)
 # plot the forest
-plt.imshow(new_forest, cmap='viridis')
+plt.imshow(initial_forest, cmap='viridis')
 plt.colorbar()
 plt.show()
 
