@@ -33,9 +33,6 @@ def HarvestForest(forest, ageList, meanAge):
     else:
         wood_outcome = -1
 
-    # negative counter for diseased state?
-    #
-
     return wood_outcome
 
 # inittialize variables for testing
