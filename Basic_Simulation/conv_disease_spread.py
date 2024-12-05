@@ -55,26 +55,26 @@ def SpreadDisease(forest, pSpread):
     forest[infected_matrix == infected_state] = infected_state
     return forest
 # %%
-N = 100
-# random forest with 10% of trees infected.
-initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.9, 0.0, 0.1])
-# plot the forest
-import matplotlib.pyplot as plt
-plt.imshow(initial_forest, cmap='viridis')
-plt.colorbar()
-plt.show()
+# N = 100
+# # random forest with 10% of trees infected.
+# initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.9, 0.0, 0.1])
+# # plot the forest
+# import matplotlib.pyplot as plt
+# plt.imshow(initial_forest, cmap='viridis')
+# plt.colorbar()
+# plt.show()
 
 
-# %%
-# Spread the disease
-# index of infected trees
-while True:
-    initial_forest = SpreadDisease(initial_forest, 0.01)
-    # plot the forest
-    plt.imshow(initial_forest, cmap='viridis')
-    plt.colorbar()
-    plt.show()
-    if np.sum(initial_forest == -1) == 0:
-        break
+# # %%
+# # Spread the disease
+# # index of infected trees
+# while True:
+#     initial_forest = SpreadDisease(initial_forest, 0.01)
+#     # plot the forest
+#     plt.imshow(initial_forest, cmap='viridis')
+#     plt.colorbar()
+#     plt.show()
+#     if np.sum(initial_forest == -1) == 0:
+#         break
 
-# %%
+# # %%
