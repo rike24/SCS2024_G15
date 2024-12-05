@@ -5,6 +5,7 @@ from conv_disease_spread import SpreadDisease
 from harvest_forest import HarvestForest
 from update_age import AgeCounter
 from initialize_forest import InitializeForest
+from tree_death import TreeDeath
 
 # Simulation parameters
 forest_size = 64  # Sides of the forest
@@ -14,7 +15,7 @@ p_spread = 0.04 # Spreading probability
 p_tree_1_growth = 0.7 # Probability of tree 1 growth
 p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth
 infection_time = 20 # Minimum number of steps an infection lasts
-iterations = 200 # Amount of simulation loops
+iterations = 300 # Amount of simulation loops
 mean_age = 50 # Mean age of forest until harvest
 
 grow_trees = True
@@ -63,6 +64,8 @@ for i in range(forest_amount):
                     plt.matshow(forest, vmin=-2, vmax=1)
                     plt.show()
         
+        forest, age_list, infection_time_list = TreeDeath(forest, age_list, 10, infection_time_list)
+        
         # Grow trees at empty areas
         if (grow_trees):
             forest = GrowTrees(forest, p_growth, p_tree_1_growth, p_tree_2_growth)
@@ -94,9 +97,14 @@ for i in range(forest_amount):
                     plt.show()
                 break
         
+        
+        
         # Update age
         age_list, infection_time_list = AgeCounter(age_list, infection_time_list, forest)
+        
+        
 
+        
 # Plot the wood outcome
 if (plot_wood_outcome):
     for i in range(forest_amount):
