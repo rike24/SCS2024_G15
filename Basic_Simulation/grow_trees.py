@@ -7,7 +7,7 @@ Created on Tue Dec  3 11:49:22 2024
 
 import numpy as np
 
-def grow_trees(forest, p, p_tree_1_growth, p_tree_2_growth):
+def GrowTrees(forest, p, p_tree_1_growth, p_tree_2_growth):
     """
     Function to grow new trees in the forest.
     
@@ -25,6 +25,6 @@ def grow_trees(forest, p, p_tree_1_growth, p_tree_2_growth):
     new_trees_indices = np.where((new_trees <= p) & (forest == 0))
     forest[new_trees_indices] = \
         np.random.choice([-1, -2], \
-                         replace=True, p=[p_tree_1_growth, p_tree_2_growth])
+                          replace=True, p=[p_tree_1_growth, p_tree_2_growth])
     
     return forest
