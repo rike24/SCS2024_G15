@@ -7,7 +7,7 @@ Created on Mon Dec  2 08:21:52 2024
 
 import numpy as np
 
-def HarvestForest(forest, ageList, minAgeAgriculture, minAgeImmune=100, relativeGrowing=0):
+def HarvestForest(forest, age_list, min_age_agriculture, min_age_immune=100, relative_growing=0):
     """
     Function to simulate the harvest of the forest.
     
@@ -21,13 +21,13 @@ def HarvestForest(forest, ageList, minAgeAgriculture, minAgeImmune=100, relative
                      and set value of immune tree as relative growing
     """
     
-    age_of_healthy_trees = ageList[forest==-1]
-    age_of_immune_trees  = ageList[forest==-2]
+    age_of_healthy_trees = age_list[forest==-1]
+    age_of_immune_trees  = age_list[forest==-2]
 
-    wood_agriculture = np.sum(age_of_healthy_trees[age_of_healthy_trees>minAgeAgriculture])
+    wood_agriculture = np.sum(age_of_healthy_trees[age_of_healthy_trees>min_age_agriculture])
 
-    if relativeGrowing!=0:
-        wood_immune_tree = relativeGrowing * np.sum(age_of_immune_trees[age_of_immune_trees>minAgeImmune])
+    if relative_growing!=0:
+        wood_immune_tree = relative_growing * np.sum(age_of_immune_trees[age_of_immune_trees>min_age_immune])
         wood_outcome = wood_agriculture + wood_immune_tree
     else:
         wood_outcome = wood_agriculture
@@ -35,12 +35,12 @@ def HarvestForest(forest, ageList, minAgeAgriculture, minAgeImmune=100, relative
     return wood_outcome
 
 # inittialize variables for testing
-forestSize = 64  # Sides of the forest.
-relativeGrowth = 0.4 # Spreading probability.
-minAgeAgriculture = 25
-minAgeImmune = 50
-forest = np.random.randint(-2,2,(forestSize,forestSize))
-ageList = np.random.randint(0,100,(forestSize,forestSize))
+forest_size = 64  # Sides of the forest.
+relative_growth = 0.4 # Spreading probability.
+min_age_agriculture = 25
+min_age_immune = 50
+forest = np.random.randint(-2,2,(forest_size,forest_size))
+ageList = np.random.randint(0,100,(forest_size,forest_size))
 
-wood_outcome = HarvestForest(forest, ageList, minAgeAgriculture, minAgeImmune, relativeGrowth)
+wood_outcome = HarvestForest(forest, ageList, min_age_agriculture, min_age_immune, relative_growth)
 print(wood_outcome)
