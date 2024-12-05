@@ -18,23 +18,22 @@ def HarvestForest(forest, ageList, meanAge):
     """
 
     wood_outcome = 0
+    healthy_trees = np.argwhere(forest==-1)
+    #age_of_healthy_trees = np.mean(forest[healthy_trees[:,0], -healthy_trees[:,1]])
+    age_of_healthy_trees = np.mean(ageList[forest==-1])
 
-    if np.mean(ageList)>=meanAge:
+    if age_of_healthy_trees>=meanAge:
 
         # calculate amount of healthy wood
-        healthy_trees = np.argwhere(forest>0)
 
         if not healthy_trees.any():
             wood_outcome = 0
         
         else:
-            wood_outcome = np.sum(ageList[healthy_trees[:,0], healthy_trees[:,1]])
+            wood_outcome = np.sum(ageList[healthy_trees[:,0], -healthy_trees[:,1]])
 
     else:
         wood_outcome = -1
-
-    # negative counter for diseased state?
-    #
 
     return wood_outcome
 
@@ -43,9 +42,10 @@ forestSize = 64  # Sides of the forest.
 pGrowth = 0.005  # Growth probability.
 pInfection = 0.1 # Infection probability.
 pSpread = 0.4 # Spreading probability.
-forest = np.random.random_integers(-1,1,(forestSize,forestSize))
-ageList = np.random.random_integers(0,100,(forestSize,forestSize))
+meanAge = 25
+forest = np.random.randint(-2,2,(forestSize,forestSize))
+ageList = np.random.randint(0,100,(forestSize,forestSize))
 infectionTime = 20 # Minimum number of steps an infection lasts.
 
-wood_outcome = HarvestForest(forest, ageList, 50)
+wood_outcome = HarvestForest(forest, ageList, meanAge)
 print(wood_outcome)
