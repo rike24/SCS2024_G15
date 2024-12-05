@@ -15,12 +15,21 @@ Agenda:
 
 Deadline simulations: 12/12
 
+
+Index
+No tree = 0
+Species A = -1
+Species B = -2 (immune)
+Infected = 1
+
+Variables:
+pGrowth, pDeath, pDisease
+
 Main simulation:
  - Main (Marcus)
- - Update Lattice (call on grow forest, spread disease) (Megan)
+ - Tree death: when infectionTimeList > infectionTime, set forest (and ageList) to zero (Brian)
  - Grow forest (Herman)
  - Spread disease (Zishan)
- - Periodic boundary conditions (Brian)
  - Harvest/Value of Forest (check value of forest + harvest)? (Marike)
 
 
@@ -32,3 +41,5 @@ Poster:
  - Design of poster (Megan)
 
 Report:
+ - Background (Megan)
+ - Method
