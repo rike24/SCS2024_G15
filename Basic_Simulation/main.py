@@ -65,7 +65,7 @@ for i in range(forest_amount):
         
         # Grow trees at empty areas
         if (grow_trees):
-            forest = GrowTrees(forest, p_growth)
+            forest = GrowTrees(forest, p_growth, p_tree_1_growth, p_tree_2_growth)
         
         # Infect trees at random with given probability
         if (infect_trees):
