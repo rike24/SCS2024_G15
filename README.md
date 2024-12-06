@@ -15,31 +15,46 @@ Agenda:
 
 Deadline simulations: 12/12
 
-
 Index
 No tree = 0
 Species A = -1
 Species B = -2 (immune)
 Infected = 1
 
-Variables:
-pGrowth, pDeath, pDisease
+# To-do (from Fri 6/12)
 
-Main simulation:
- - Main (Marcus)
- - Tree death: when infectionTimeList > infectionTime, set forest (and ageList) to zero (Brian)
- - Grow forest (Herman)
- - Spread disease (Zishan)
- - Harvest/Value of Forest (check value of forest + harvest)? (Marike)
+ - Research the time scale for disease spreading (should one time step = 1 yr?) (Brian, Marike)
+
+ - Description of mechanisms of disease-spreading (for report/poster) (Megan)
+
+ - Should we take age into account (when disease-spreading? older trees have a larger range of infection) (Zishan, is this possible?)
+
+ - Should we implement a probability of tree dying (trees don't die w 100% prob after infectionTime)
+
+ - Batch simulations (new main for running batches) for ensemble average of infection and wood outcome (Herman)
+
+ - Long run for time average
+ 
+ - Need to decide which forest configurations/initial conditions we want to simulate
+
+ - Run simulations to generate graphs/images for poster draft 10/12
+
+ - Write draft text of results/conclusions/discussion for poster (Marcus)
+
+ - Graph of ratio species A / species B for different forests?
+
+ - Work on report/ research (Everyone)
 
 
-Measures:
- - Time taken for forest to reach desired value
 
-Poster:
- - Research: Can trees heal after getting infected by fungi, do they become immune?
- - Design of poster (Megan)
+# To ask Daniel on Wednesday:
 
-Report:
- - Background (Megan)
- - Method
+## How are trees regrown? 
+Assume naturally regrown (not planted), but how should we model this?
+Trees regrown with a probability for each species or regrown based on the surrounding trees' species?
+
+
+
+
+
+
