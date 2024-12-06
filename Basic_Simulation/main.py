@@ -6,6 +6,7 @@ from harvest_forest import HarvestForest
 from update_age import AgeCounter
 from initialize_forest import InitializeForest
 from tree_death import TreeDeath
+from sustainability_check import SustainabilityCheck
 
 # Simulation parameters
 forest_size = 200  # Sides of the forest
@@ -45,9 +46,11 @@ plot_forest = True
 iterations_to_plots = 10
 plot_wood_outcome = True
 plot_infected_amount = True
+plot_sustainability = True
 
 wood_outcome = np.zeros((forest_amount, iterations))
 infected_amount = np.zeros((forest_amount, iterations))
+sustainability = np.zeros((forest_amount, iterations))
 
 for i in range(forest_amount):
     forest = InitializeForest(forest_size, initial_forest_value[i], use_patches[i], patch_offset_x[i], patch_offset_y[i], patch_width[i], \
@@ -88,6 +91,7 @@ for i in range(forest_amount):
         # Get wood outcome from harvest
         if (harvest_forest):
             wood_outcome[i, j] = HarvestForest(forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
+            sustainability[i, j] = SustainabilityCheck(forest, age_list, min_age_agriculture)
         
         # Update age
         age_list, infection_time_list = AgeCounter(age_list, infection_time_list, forest)
@@ -96,7 +100,7 @@ for i in range(forest_amount):
 if (plot_wood_outcome):
     for i in range(forest_amount):
         plt.plot(range(iterations), wood_outcome[i, :iterations])
-    plt.xlabel("Time")
+    plt.xlabel("Iterations")
     plt.ylabel("Wood outcome")
     plt.axvline(min_age_agriculture, linestyle="dashed")
     plt.axvline(min_age_immune, linestyle="dashed")
@@ -108,8 +112,18 @@ if (plot_wood_outcome):
 if (plot_infected_amount):
     for i in range(forest_amount):
         plt.plot(range(iterations), infected_amount[i, :iterations])
-    plt.xlabel("Time")
+    plt.xlabel("Iterations")
     plt.ylabel("Amount of infected trees")
+    if (forest_amount > 1):
+        plt.legend(["Forest " + str(i) for i in range(forest_amount)])
+    plt.show()
+
+# Plot the non harvestable trees / total amount of trees
+if (plot_sustainability):
+    for i in range(forest_amount):
+        plt.plot(range(iterations), sustainability[i, :iterations])
+    plt.xlabel("Iterations")
+    plt.ylabel("non harvestable trees / total amount of trees")
     if (forest_amount > 1):
         plt.legend(["Forest " + str(i) for i in range(forest_amount)])
     plt.show()
