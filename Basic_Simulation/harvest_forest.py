@@ -35,12 +35,12 @@ def HarvestForest(forest, age_list, min_age_agriculture, min_age_immune=100, rel
     return wood_outcome
 
 # inittialize variables for testing
-forest_size = 64  # Sides of the forest.
-relative_growth = 0.4 # Spreading probability.
-min_age_agriculture = 25
-min_age_immune = 50
-forest = np.random.randint(-2,2,(forest_size,forest_size))
-ageList = np.random.randint(0,100,(forest_size,forest_size))
+# forest_size = 64  # Sides of the forest.
+# relative_growth = 0.4
+# min_age_agriculture = 25
+# min_age_immune = 50
+# forest = np.random.randint(-2,2,(forest_size,forest_size))
+# ageList = np.random.randint(0,100,(forest_size,forest_size))
 
-wood_outcome = HarvestForest(forest, ageList, min_age_agriculture, min_age_immune, relative_growth)
-print(wood_outcome)
+# wood_outcome = HarvestForest(forest, ageList, min_age_agriculture, min_age_immune, relative_growth)
+# print(wood_outcome)

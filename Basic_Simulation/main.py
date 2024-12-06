@@ -8,36 +8,38 @@ from initialize_forest import InitializeForest
 from tree_death import TreeDeath
 
 # Simulation parameters
-forest_size = 64  # Sides of the forest
+forest_size = 200  # Sides of the forest
 p_growth = 0.005  # Growth probability
 p_infection = 0.0001 # Infection probability
-p_spread = 0.04 # Spreading probability
-p_tree_1_growth = 0.7 # Probability of tree 1 growth
-p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth
-infection_time = 20 # Minimum number of steps an infection lasts
+p_spread = 0.02 # Spreading probability
+p_tree_1_growth = np.array([1.0, 0.5, 0.5]) # Probability of tree 1 growth for each forest
+p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
+infection_time = 20 # Number of steps an infection lasts
 iterations = 300 # Amount of simulation loops
-mean_age = 50 # Mean age of forest until harvest
+relative_growth = 0.4 # Relative growth of tree 2 to tree 1 for harvest
+min_age_agriculture = 25 # Minimum age of tree 1 until harvest
+min_age_immune = 50 # Minimum age of tree 2 tree until harvest
 
 grow_trees = True
 infect_trees = True
 spread_disease = True
 harvest_forest = True
 
-forest_amount = 2 # Amount of forests that should be intialized
-initial_forest_value = [-1, -2] # The initial value of the forest before added patches or random placements
+forest_amount = 3 # Amount of forests that should be intialized
+initial_forest_value = [-1, -2, -2] # The initial value of the forest before added patches or random placements
 
-use_patches =         [False, True]
-patch_offset_x =      [0,     0]
-patch_offset_y =      [0,     0]
-patch_width =         [5,     5]
-patch_height =        [5,     5]
-patch_hspacing =      [1,     1]
-patch_vspacing =      [1,     1]
-patch_value =         [-1,   -1]
+use_patches =         [False, True, True]
+patch_offset_x =      [0,     0,     0]
+patch_offset_y =      [0,     0,     0]
+patch_width =         [5,     10,    3]
+patch_height =        [5,     10,    3]
+patch_hspacing =      [1,     1,     1]
+patch_vspacing =      [1,     1,     1]
+patch_value =         [-1,   -1,    -1]
 
-use_random_placements = [False, False]
-tree_1_probability =    [0.00, 0.00]
-tree_2_probability =    [0.02, 0.02]
+use_random_placements = [False, False, False]
+tree_1_probability =    [0.00, 0.00, 0.00]
+tree_2_probability =    [0.02, 0.7, 0.02]
 
 plot_forest = True
 iterations_to_plots = 10
@@ -55,6 +57,8 @@ for i in range(forest_amount):
     age_list = np.zeros([forest_size, forest_size]) # Initial ages
     infection_time_list = np.zeros([forest_size, forest_size]) # Initial infection times
     
+    print("Forest", i, "initializes with", np.sum(forest == -1), "type 1 trees and", np.sum(forest == -2), "type 2 trees.")
+    
     for j in range(iterations):
         
         # Plot the forest
@@ -64,11 +68,11 @@ for i in range(forest_amount):
                     plt.matshow(forest, vmin=-2, vmax=1)
                     plt.show()
         
-        forest, age_list, infection_time_list = TreeDeath(forest, age_list, 10, infection_time_list)
+        forest, age_list, infection_time_list = TreeDeath(forest, age_list, infection_time, infection_time_list)
         
         # Grow trees at empty areas
         if (grow_trees):
-            forest = GrowTrees(forest, p_growth, p_tree_1_growth, p_tree_2_growth)
+            forest = GrowTrees(forest, p_growth, p_tree_1_growth[i], p_tree_2_growth[i])
         
         # Infect trees at random with given probability
         if (infect_trees):
@@ -78,49 +82,34 @@ for i in range(forest_amount):
         if (spread_disease):
             forest = SpreadDisease(forest, p_spread)
         
-        # Get the current wood outcome
-        wood_outcome[i, j] = np.sum(age_list[forest < 0])
-        
         # Get the current amount of infected trees
         infected_amount[i, j] = np.sum(forest == 1)
         
         # Get wood outcome from harvest
         if (harvest_forest):
-            harvest_wood_outcome = HarvestForest(forest, age_list, mean_age)
-            
-            # Check if forest is harvested, if so exit loop
-            if harvest_wood_outcome > -1:
-                print("Forest has been harvested with wood outcome: ", harvest_wood_outcome)
-                # Plot the forest
-                if (plot_forest):
-                    plt.matshow(forest, vmin=-2, vmax=1)
-                    plt.show()
-                break
-        
-        
+            wood_outcome[i, j] = HarvestForest(forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
         
         # Update age
         age_list, infection_time_list = AgeCounter(age_list, infection_time_list, forest)
-        
-        
 
-        
 # Plot the wood outcome
 if (plot_wood_outcome):
     for i in range(forest_amount):
-        plt.plot(range(mean_age), wood_outcome[i, :mean_age])
+        plt.plot(range(iterations), wood_outcome[i, :iterations])
     plt.xlabel("Time")
     plt.ylabel("Wood outcome")
+    plt.axvline(min_age_agriculture, linestyle="dashed")
+    plt.axvline(min_age_immune, linestyle="dashed")
     if (forest_amount > 1):
-        plt.legend([str(i) for i in range(forest_amount)])
+        plt.legend(["Forest " + str(i) for i in range(forest_amount)] + ["Min age agriculture", "Min age immune"])
     plt.show()
 
 # Plot the amount of infected trees
 if (plot_infected_amount):
     for i in range(forest_amount):
-        plt.plot(range(mean_age), infected_amount[i, :mean_age])
+        plt.plot(range(iterations), infected_amount[i, :iterations])
     plt.xlabel("Time")
     plt.ylabel("Amount of infected trees")
     if (forest_amount > 1):
-        plt.legend([str(i) for i in range(forest_amount)])
+        plt.legend(["Forest " + str(i) for i in range(forest_amount)])
     plt.show()
