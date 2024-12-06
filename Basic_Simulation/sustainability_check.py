@@ -7,15 +7,12 @@ Created on Fri Dec  6 10:26:42 2024
 
 import numpy as np
 
-def SustainabilityCheck(age_list, mean_age):
+def SustainabilityCheck(forest, age_list, mean_age):
     
-    Ni, Nj = np.where(age_list <= mean_age)
-    remaining_trees = len(Ni)
-    Mi, Mj = np.where(age_list == 0)
-    empty_spots = len(Mi)
+    remaining_trees = np.sum(age_list <= mean_age)
+    empty_spots = np.sum(forest == 0)
     total_number_of_trees = np.size(age_list) - empty_spots
     percentage = remaining_trees/total_number_of_trees
-    
     
     return percentage
 
@@ -29,3 +26,4 @@ def SustainabilityCheck(age_list, mean_age):
 # remainingTreesPercent = SustainabilityCheck(age_list, mean_age)
 
 # print(remainingTreesPercent)
+
