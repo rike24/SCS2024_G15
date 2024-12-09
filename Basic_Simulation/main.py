@@ -9,7 +9,7 @@ from tree_death import TreeDeath
 from sustainability_check import SustainabilityCheck
 
 # Simulation parameters
-forest_size = 200  # Sides of the forest
+forest_size = 100  # Sides of the forest
 p_growth = 0.005  # Growth probability
 p_infection = 0.0001 # Infection probability
 p_spread = 0.02 # Spreading probability
@@ -43,7 +43,7 @@ tree_1_probability =    [0.00, 0.00, 0.00]
 tree_2_probability =    [0.02, 0.7, 0.02]
 
 plot_forest = True
-iterations_to_plots = 10
+iterations_to_plots = 100
 plot_wood_outcome = True
 plot_infected_amount = True
 plot_sustainability = True
@@ -61,6 +61,7 @@ for i in range(forest_amount):
     infection_time_list = np.zeros([forest_size, forest_size]) # Initial infection times
     
     print("Forest", i, "initializes with", np.sum(forest == -1), "type 1 trees and", np.sum(forest == -2), "type 2 trees.")
+    
     
     for j in range(iterations):
         
@@ -83,7 +84,7 @@ for i in range(forest_amount):
         
         # Spread disease from already infected trees
         if (spread_disease):
-            forest = SpreadDisease(forest, p_spread)
+            forest = SpreadDisease(forest, age_list, infection_time, p_spread)
         
         # Get the current amount of infected trees
         infected_amount[i, j] = np.sum(forest == 1)
@@ -91,7 +92,7 @@ for i in range(forest_amount):
         # Get wood outcome from harvest
         if (harvest_forest):
             wood_outcome[i, j] = HarvestForest(forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
-            sustainability[i, j] = SustainabilityCheck(forest, age_list, min_age_agriculture)
+            sustainability[i, j] = SustainabilityCheck(forest, age_list, min_age_agriculture, min_age_immune)
         
         # Update age
         age_list, infection_time_list = AgeCounter(age_list, infection_time_list, forest)
