@@ -1,1 +1,5 @@
 *.pyc
+.DS_Store
+pseudocode_conv_ds.md
+conv_spreading.ipynb
+
