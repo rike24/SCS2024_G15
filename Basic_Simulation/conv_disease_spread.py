@@ -43,7 +43,7 @@ import torch
 import torch.nn.functional as F
 
 
-def SpreadDisease(forest_state, age_list, infection_time, p_spread):
+def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species = None, spread_matrix = None):
     """
     Simulates disease spread in a forest.
 
@@ -51,15 +51,24 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread):
         forest_state (numpy.ndarray): N x N matrix representing the forest state.
         age_list (numpy.ndarray): N x N matrix representing the age of each tree.
         infection_time (numpy.ndarray): N x N matrix recording infection time.
+        tree_species (numpy.ndarray): N x N matrix representing the species of each tree. Note that 0 denotes empty cells.
+        spread_matrix (numpy.ndarray): m x n matrix representing the spread of disease, m denotes the amount of tree species,
+          n denotes the amount of disease types. For now, we only consider one type of disease(n=1). spread_matrix[i, 0] denotes
+          the probability that species i get infected by disease 0. spread_matrix[0, :] should be set to 0 corresponding to empty cells.
         p_spread (float): Base probability of successful disease transmission.
+
 
     Returns:
         numpy.ndarray: Updated forest_state matrix.
     """
+    if spread_matrix is not None:
+        if spread_matrix.shape[1] > 1:
+            raise ValueError("Only one type of disease is supported for now.")
+
 
     
-    
     # define a 11*11 kernel representing the distance, the center is 0, the first layer is 1, second layer is 2, and so on
+    KERNEL_SIZE = 11
     distance_kernel = np.array([
         [ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
         [ 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5],
@@ -75,9 +84,8 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread):
     ])
 
 
-    # Helper functions (new features can be added here)
+    # Helper functions
 
-    # Age level function used to determine the spread scope of disease based on the age of the infected tree
     def AgeLevel(age_list):
         age_level = np.zeros_like(age_list)
         age_level[(age_list <= 1)] = 0
@@ -93,13 +101,15 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread):
         age_level_tensor = torch.tensor(age_level, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
         padded_age_level = F.pad(age_level_tensor, (5, 5, 5, 5), mode='circular')
         unfolded_age_level = F.unfold(padded_age_level, kernel_size=(11, 11), padding=0).squeeze(0)
-
-        # The infection probability decreases with the increase of the distance between the infected tree and the target tree
         distance_coe = 1 / torch.pow(2, unfolded_distance_kernel - 1)
-
-        # But if the root area of the infected tree does not cover the target tree, the infection probability is 0
         result = distance_coe * (unfolded_age_level - unfolded_distance_kernel >= 0)
         return result
+        
+    def species_factor(tree_species, spread_matrix, squared_kernel_size=121):
+        species_coe = spread_matrix[tree_species].reshape(1, tree_species.shape[0]**2)
+        species_coe = np.repeat(species_coe, squared_kernel_size, axis=0)
+        species_coe_tensor = torch.tensor(species_coe, dtype=torch.float32)
+        return species_coe_tensor
         
 
     def infection_time_factor(duration):
@@ -123,7 +133,15 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread):
     unfolded_distance_kernel = torch.tensor(distance_kernel.flatten(), dtype=torch.float32).unsqueeze(1)
     # Compute final P_matrix
     distance_coe = advanced_distance_coe(unfolded_distance_kernel, age_list)
-    P_matrix = distance_coe * infected_unfolded* p_spread
+
+    if tree_species is None or spread_matrix is None:
+        species_coe = 1
+        print("Warning: lack of species information, set species_coe to 1.")
+    else:
+        species_coe = species_factor(tree_species, spread_matrix)
+
+    P_matrix = distance_coe * infected_unfolded * p_spread 
+    P_matrix = P_matrix * species_coe
 
     # Calculate the probability of each tree being infected
     one_minus_P_matrix = 1 - P_matrix
@@ -147,7 +165,7 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread):
 
 
 #%%
-N = 100
+N = 500
 # random forest with 10% of trees infected.
 initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.99, 0.0, 0.01])
 # plot the forest
@@ -166,6 +184,12 @@ test_age_list = np.random.randint(0, 100, (N, N))
 
 test_infection_time = np.random.rand(N, N)
 
+random_values = np.random.randint(1, 3, size=(N, N))
+test_tree_species = np.zeros((N, N))
+test_tree_species[(initial_forest != 0)] = random_values[(initial_forest != 0)]
+test_tree_species = test_tree_species.astype(int)
+test_spread_matrix = np.random.rand(3, 1)
+test_spread_matrix[0, 0] = 0
 
 while True:
     initial_forest = SpreadDisease(initial_forest, test_age_list, test_infection_time, 0.01)
@@ -177,3 +201,5 @@ while True:
         break
 
 # # %%
+
+# %%
