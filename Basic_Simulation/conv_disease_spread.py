@@ -88,12 +88,11 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
 
     def AgeLevel(age_list):
         age_level = np.zeros_like(age_list)
-        age_level[(age_list <= 1)] = 0
-        age_level[(age_list > 1) & (age_list <= 20)] = 1
-        age_level[(age_list > 20) & (age_list <= 40)] = 2
-        age_level[(age_list > 40) & (age_list <= 60)] = 3
-        age_level[(age_list > 60) & (age_list <= 80)] = 4
-        age_level[(age_list > 80)] = 5
+        
+        age_level[(age_list <= 2)] = 0
+        age_level[(age_list >= 20) & (age_list < 2)] = 1
+        age_level[(age_list < 20)] = 2
+        
         return age_level
 
     def advanced_distance_coe(unfolded_distance_kernel, age_list):
