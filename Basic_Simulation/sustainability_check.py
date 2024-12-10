@@ -7,12 +7,12 @@ Created on Fri Dec  6 10:26:42 2024
 
 import numpy as np
 
-def SustainabilityCheck(forest, age_list, mean_age):
+def SustainabilityCheck(forest, age_list, min_age_agriculture, min_age_immune):
     
-    remaining_trees = np.sum(age_list <= mean_age)
-    empty_spots = np.sum(forest == 0)
-    total_number_of_trees = np.size(age_list) - empty_spots
-    percentage = remaining_trees/total_number_of_trees
+    remaining_trees_1 = np.sum(age_list[forest == -1] <= min_age_agriculture)
+    remaining_trees_2 = np.sum(age_list[forest == -2] <= min_age_immune)
+    total_number_of_trees = np.sum(forest < 0)
+    percentage = (remaining_trees_1 + remaining_trees_2)/total_number_of_trees
     
     return percentage
 
