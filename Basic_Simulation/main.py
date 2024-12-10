@@ -1,6 +1,7 @@
+#%%
 import numpy as np
 import matplotlib.pyplot as plt
-from grow_trees import GrowTrees
+from conv_grow_trees_TS import GrowTrees
 from conv_disease_spread import SpreadDisease
 from harvest_forest import HarvestForest
 from update_age import AgeCounter
@@ -101,7 +102,7 @@ for i in range(forest_amount):
         
         # Grow trees at empty areas
         if (grow_trees):
-            forest = GrowTrees(forest, p_growth, p_tree_1_growth[i], p_tree_2_growth[i])
+            forest = GrowTrees(forest, p_tree_1_growth[i], p_tree_2_growth[i])
         
         # Infect trees at random with given probability
         if (infect_trees):

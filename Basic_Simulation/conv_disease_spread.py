@@ -88,12 +88,11 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
 
     def AgeLevel(age_list):
         age_level = np.zeros_like(age_list)
-        age_level[(age_list <= 1)] = 0
-        age_level[(age_list > 1) & (age_list <= 20)] = 1
-        age_level[(age_list > 20) & (age_list <= 40)] = 2
-        age_level[(age_list > 40) & (age_list <= 60)] = 3
-        age_level[(age_list > 60) & (age_list <= 80)] = 4
-        age_level[(age_list > 80)] = 5
+        
+        age_level[(age_list <= 2)] = 0
+        age_level[(age_list >= 20) & (age_list < 2)] = 1
+        age_level[(age_list < 20)] = 2
+        
         return age_level
 
     def advanced_distance_coe(unfolded_distance_kernel, age_list):
@@ -136,7 +135,7 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
 
     if tree_species is None or spread_matrix is None:
         species_coe = 1
-        print("Warning: lack of species information, set species_coe to 1.")
+        #print("Warning: lack of species information, set species_coe to 1.")
     else:
         species_coe = species_factor(tree_species, spread_matrix)
 
@@ -164,42 +163,42 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
 
 
 
-#%%
-N = 500
-# random forest with 10% of trees infected.
-initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.99, 0.0, 0.01])
-# plot the forest
-import matplotlib.pyplot as plt
-plt.imshow(initial_forest, cmap='viridis')
-plt.colorbar()
-plt.show()
+# #%%
+# N = 500
+# # random forest with 10% of trees infected.
+# initial_forest = np.random.choice([-1, 0, 1], size=(N, N), p=[0.99, 0.0, 0.01])
+# # plot the forest
+# import matplotlib.pyplot as plt
+# plt.imshow(initial_forest, cmap='viridis')
+# plt.colorbar()
+# plt.show()
 
-
-# %%
-# Spread the disease
-# index of infected trees
-
-# age of trees
-test_age_list = np.random.randint(0, 100, (N, N))
-
-test_infection_time = np.random.rand(N, N)
-
-random_values = np.random.randint(1, 3, size=(N, N))
-test_tree_species = np.zeros((N, N))
-test_tree_species[(initial_forest != 0)] = random_values[(initial_forest != 0)]
-test_tree_species = test_tree_species.astype(int)
-test_spread_matrix = np.random.rand(3, 1)
-test_spread_matrix[0, 0] = 0
-
-while True:
-    initial_forest = SpreadDisease(initial_forest, test_age_list, test_infection_time, 0.01)
-    # plot the forest
-    plt.imshow(initial_forest, cmap='viridis')
-    plt.colorbar()
-    plt.show()
-    if np.sum(initial_forest == -1) == 0:
-        break
 
 # # %%
+# # Spread the disease
+# # index of infected trees
 
-# %%
+# # age of trees
+# test_age_list = np.random.randint(0, 100, (N, N))
+
+# test_infection_time = np.random.rand(N, N)
+
+# random_values = np.random.randint(1, 3, size=(N, N))
+# test_tree_species = np.zeros((N, N))
+# test_tree_species[(initial_forest != 0)] = random_values[(initial_forest != 0)]
+# test_tree_species = test_tree_species.astype(int)
+# test_spread_matrix = np.random.rand(3, 1)
+# test_spread_matrix[0, 0] = 0
+
+# while True:
+#     initial_forest = SpreadDisease(initial_forest, test_age_list, test_infection_time, 0.01)
+#     # plot the forest
+#     plt.imshow(initial_forest, cmap='viridis')
+#     plt.colorbar()
+#     plt.show()
+#     if np.sum(initial_forest == -1) == 0:
+#         break
+
+# # # %%
+
+# # %%
