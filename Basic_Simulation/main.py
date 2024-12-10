@@ -138,3 +138,5 @@ if (plot_tree_amount):
     plotForestData(amount_tree_agriculture, "Iterations", "Amount of agricultural trees")
     plotForestData(amount_tree_immune, "Iterations", "Amount of immune trees")
 
+
+# %%

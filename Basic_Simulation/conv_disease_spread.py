@@ -90,8 +90,8 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
         age_level = np.zeros_like(age_list)
         
         age_level[(age_list <= 2)] = 0
-        age_level[(age_list >= 20) & (age_list < 2)] = 1
-        age_level[(age_list < 20)] = 2
+        age_level[(age_list <= 20) & (age_list > 2)] = 1
+        age_level[(age_list > 20)] = 2
         
         return age_level
 
@@ -202,3 +202,5 @@ def SpreadDisease(forest_state, age_list, infection_time, p_spread, tree_species
 # # # %%
 
 # # %%
+
+
