@@ -1,6 +1,7 @@
+#%%
 import numpy as np
 import matplotlib.pyplot as plt
-from grow_trees import GrowTrees
+from conv_grow_trees_TS import GrowTrees
 from conv_disease_spread import SpreadDisease
 from harvest_forest import HarvestForest
 from update_age import AgeCounter
@@ -13,10 +14,10 @@ forest_size = 100  # Sides of the forest
 p_growth = 0.005  # Growth probability
 p_infection = 0.0001 # Infection probability
 p_spread = 0.02 # Spreading probability
-p_tree_1_growth = np.array([1.0, 0.5, 0.5]) # Probability of tree 1 growth for each forest
-p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
+p_tree_1_growth = np.array([0.0075, 0.0075, 0.0075]) # Probability of tree 1 growth for each forest
+p_tree_2_growth =  np.array([0.0025, 0.0025, 0.0025])# Probability of tree 2 growth for each forest
 infection_time = 20 # Number of steps an infection lasts
-iterations = 300 # Amount of simulation loops
+iterations = 2000 # Amount of simulation loops
 relative_growth = 0.4 # Relative growth of tree 2 to tree 1 for harvest
 min_age_agriculture = 25 # Minimum age of tree 1 until harvest
 min_age_immune = 50 # Minimum age of tree 2 tree until harvest
@@ -29,7 +30,7 @@ harvest_forest = True
 forest_amount = 3 # Amount of forests that should be intialized
 initial_forest_value = [-1, -2, -2] # The initial value of the forest before added patches or random placements
 
-use_patches =         [False, True, True]
+use_patches =         [False, False, True]
 patch_offset_x =      [0,     0,     0]
 patch_offset_y =      [0,     0,     0]
 patch_width =         [5,     10,    3]
@@ -76,7 +77,7 @@ for i in range(forest_amount):
         
         # Grow trees at empty areas
         if (grow_trees):
-            forest = GrowTrees(forest, p_growth, p_tree_1_growth[i], p_tree_2_growth[i])
+            forest = GrowTrees(forest, p_tree_1_growth[i], p_tree_2_growth[i])
         
         # Infect trees at random with given probability
         if (infect_trees):
@@ -128,3 +129,5 @@ if (plot_sustainability):
     if (forest_amount > 1):
         plt.legend(["Forest " + str(i) for i in range(forest_amount)])
     plt.show()
+
+# %%
