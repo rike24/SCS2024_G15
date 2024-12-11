@@ -1,7 +1,7 @@
 #%%
 import numpy as np
 import matplotlib.pyplot as plt
-from conv_grow_trees_TS import GrowTrees
+from grow_trees import GrowTrees
 from conv_disease_spread import SpreadDisease
 from harvest_forest import HarvestForest
 from update_age import AgeCounter
