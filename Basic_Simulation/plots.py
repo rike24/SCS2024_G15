@@ -30,6 +30,11 @@ def plotForestData(forest_data, x_label, y_label, vline_x = None, hline_y = None
         if (forest_amount > 1):
             plt.legend(["Forest " + str(i) for i in range(forest_amount)])
     plt.show()
+    
+    
+def plotPhaseDiagram(phase_diagram):
+    plt.matshow(phase_diagram)
+    plt.colorbar()
 
 def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y = None, line_name = None, title_name=None):
     
