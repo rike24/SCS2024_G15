@@ -5,7 +5,7 @@ from grow_trees import GrowTrees
 from conv_disease_spread import SpreadDisease
 from harvest_forest import HarvestForest
 from update_age import AgeCounter
-from initialize_forest import InitializeForest
+from initialize_forest import generate_forest
 from tree_death import TreeDeath
 from sustainability_check import SustainabilityCheck
 from plots import plotForestData
@@ -31,23 +31,6 @@ infect_trees = True
 spread_disease = True
 harvest_forest = True
 
-forest_amount = 3 # Amount of forests that should be intialized
-initial_forest_value = [-1, -2, -1] # The initial value of the forest before added patches or random placements
-
-use_patches =         [False, True, False]
-patch_offset_x =      [0,     0,     0]
-patch_offset_y =      [0,     0,     0]
-patch_width =         [10,     10,    5]
-patch_height =        [10,     10,    5]
-patch_hspacing =      [2,     4,     1]
-patch_vspacing =      [2,     4,     1]
-patch_value =         [-1,   -1,    -1]
-
-use_random_placements = [False, False, True]
-tree_1_probability =    [0.00, 0.00, 0.00]
-tree_2_probability =    [0.2, 0.7, 0.25]
-use_distribution_of_forest = [-1, -1, 1]
-
 plot_forest = True
 iterations_to_plots = 5
 plot_wood_outcome = True
@@ -56,6 +39,8 @@ plot_sustainability = True
 plot_tree_amount = True
 plot_empty_areas = True
 
+forest_amount = 3 # Amount of forests that should be intialized
+
 wood_outcome = np.zeros((forest_amount, iterations))
 infected_amount = np.zeros((forest_amount, iterations))
 sustainability = np.zeros((forest_amount, iterations))
@@ -63,24 +48,8 @@ amount_tree_agriculture = np.zeros((forest_amount, iterations))
 amount_tree_immune = np.zeros((forest_amount, iterations))
 amount_empty_areas = np.zeros((forest_amount, iterations))
 
-forests = np.zeros((forest_amount, forest_size, forest_size))
-
 for i in range(forest_amount):
-    if ((not use_random_placements) or (use_distribution_of_forest[i] == -1)):
-        forests[i] = InitializeForest(forest_size, initial_forest_value[i], use_patches[i], patch_offset_x[i], patch_offset_y[i], patch_width[i], \
-                                  patch_height[i], patch_hspacing[i], patch_vspacing[i], patch_value[i], use_random_placements[i],
-                                  tree_1_probability[i], tree_2_probability[i])
-
-for i in range(forest_amount):
-    if (use_random_placements and (use_distribution_of_forest[i] > -1)):
-        index = use_distribution_of_forest[i]
-        tree_2_prob = np.sum(forests[index] == -2) / np.sum(forests[index] < 0)
-        forests[i] = InitializeForest(forest_size, initial_forest_value[i], use_patches[i], patch_offset_x[i], patch_offset_y[i], patch_width[i], \
-                                  patch_height[i], patch_hspacing[i], patch_vspacing[i], patch_value[i], use_random_placements[i],
-                                  0, tree_2_prob)
-
-for i in range(forest_amount):
-    forest = np.copy(forests[i])
+    forest = generate_forest(i, forest_size)
     age_list = np.zeros([forest_size, forest_size]) # Initial ages
     infection_time_list = np.zeros([forest_size, forest_size]) # Initial infection times
     
