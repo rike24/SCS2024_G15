@@ -31,13 +31,15 @@ def plotForestData(forest_data, x_label, y_label, vline_x = None, hline_y = None
             plt.legend(["Forest " + str(i) for i in range(forest_amount)])
     plt.show()
 
-def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y = None, line_name = None):
-    forest_amount = len(forest_data)
-    for i in range(forest_amount):
+def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y = None, line_name = None, title_name=None):
+    
+    batch_size = forest_data.shape[0]
+    for i in range(batch_size):
         plt.plot(range(len(forest_data[i])), forest_data[i])
     
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    plt.title(title_name)
     
     if vline_x != None:
         if (type(vline_x) == list):
@@ -54,9 +56,9 @@ def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y =
             plt.axvline(hline_y, linestyle="dashed")
     if (line_name != None):
         line_name_list = [line_name] if (type(line_name) != list) else line_name
-        if (forest_amount > 1):
-            plt.legend(["Forest " + str(i) for i in range(forest_amount)] + line_name_list)
+        if (batch_size > 1):
+            plt.legend(["Run " + str(i) for i in range(batch_size)] + line_name_list)
     else:
-        if (forest_amount > 1):
-            plt.legend(["Forest " + str(i) for i in range(forest_amount)])
+        if (batch_size > 1):
+            plt.legend(["Run " + str(i) for i in range(batch_size)])
     plt.show()
