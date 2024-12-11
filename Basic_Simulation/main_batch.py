@@ -27,14 +27,16 @@ p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each fo
 infection_time = 10 # Number of steps an infection lasts
 iterations = 1000 # Amount of simulation loops
 relative_growth = 0.1 # Relative growth of tree 2 to tree 1 for harvest
-min_age_agriculture = 25 # Minimum age of tree 1 until harvest
-min_age_immune = 50 # Minimum age of tree 2 tree until harvest
+min_age_agriculture = 45 # Minimum age of tree 1 until harvest
+min_age_immune = 80 # Minimum age of tree 2 tree until harvest
 
+# Choose which functions should be included in the simulation.
 grow_trees = True
 infect_trees = True
 spread_disease = True
 harvest_forest = True
 
+# Initialize forests.
 forest_amount = 3 # Amount of forests that should be intialized
 initial_forest_value = [-1, -2, -1] # The initial value of the forest before added patches or random placements
 
@@ -52,6 +54,7 @@ tree_1_probability =    [0.00, 0.00, 0.00]
 tree_2_probability =    [0.2, 0.7, 0.25]
 use_distribution_of_forest = [-1, -1, 1]
 
+# Decide what should be plotted.
 plot_forest = True
 iterations_to_plots = 100
 plot_wood_outcome = True
@@ -60,6 +63,7 @@ plot_sustainability = True
 plot_tree_amount = True
 plot_empty_areas = True
 
+# Initialize data lists.
 wood_outcome = np.zeros((forest_amount, iterations))
 infected_amount = np.zeros((forest_amount, iterations))
 sustainability = np.zeros((forest_amount, iterations))
