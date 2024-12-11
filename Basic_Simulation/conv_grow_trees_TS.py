@@ -103,25 +103,26 @@ def GrowTrees(forest, p_prolif1, p_prolif2):
     
     return forest
 
-# %%
-N = 100
-p_prolif1 = 0.0075
-p_prolif2 = 0.0025
-# random forest with 10% of trees infected.
-forest = np.random.choice([-2, -1, 0, 1], size=(N, N), p=[0.1, 0.35, 0.5, 0.05])
-# plot the forest
-import matplotlib.pyplot as plt
-plt.imshow(forest, cmap='viridis')
-plt.colorbar()
-plt.show()
 
-# %%
-while True:
-    forest = GrowTrees(forest, p_prolif1, p_prolif2)
+# # %%
+# N = 100
+# p_prolif1 = 0.0075
+# p_prolif2 = 0.0025
+# # random forest with 10% of trees infected.
+# forest = np.random.choice([-2, -1, 0, 1], size=(N, N), p=[0.1, 0.35, 0.5, 0.05])
+# # plot the forest
+# import matplotlib.pyplot as plt
+# plt.imshow(forest, cmap='viridis')
+# plt.colorbar()
+# plt.show()
+
+# # %%
+# while True:
+#     forest = GrowTrees(forest, p_prolif1, p_prolif2)
     
-    # plot the forest
-    plt.imshow(forest, cmap='viridis')
-    plt.colorbar()
-    plt.show()
-    if np.sum(forest == 0) == 0:
-        break
+#     # plot the forest
+#     plt.imshow(forest, cmap='viridis')
+#     plt.colorbar()
+#     plt.show()
+#     if np.sum(forest == 0) == 0:
+#         break
