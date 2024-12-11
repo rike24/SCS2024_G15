@@ -108,21 +108,21 @@ for i in range(batch_size):
         age_list, infection_time_list = AgeCounter(age_list, infection_time_list, forest)
 
 # Plot raw data.
-if (plot_wood_outcome):
-    plotForestBatchData(wood_outcome, "Iterations", "Wood outcome", [min_age_agriculture, min_age_immune], None, ["Min age agriculture", "Min age immune"], title_name="Wood Outcome")
+# if (plot_wood_outcome):
+#     plotForestBatchData(wood_outcome, "Iterations", "Wood outcome", [min_age_agriculture, min_age_immune], None, ["Min age agriculture", "Min age immune"], title_name="Wood Outcome")
 
-if (plot_infected_amount):
-    plotForestBatchData(infected_amount, "Iterations", "Amount of infected trees", title_name="Infected Amount")
+# if (plot_infected_amount):
+#     plotForestBatchData(infected_amount, "Iterations", "Amount of infected trees", title_name="Infected Amount")
 
-if (plot_empty_areas):
-    plotForestBatchData(amount_empty_areas, "Iterations", "Amount of empty areas", title_name="Amount of Empty Areas")
+# if (plot_empty_areas):
+#     plotForestBatchData(amount_empty_areas, "Iterations", "Amount of empty areas", title_name="Amount of Empty Areas")
 
-if (plot_sustainability):
-    plotForestBatchData(sustainability, "Iterations", "Non harvestable trees / total amount of trees", title_name="Sustainablility")
+# if (plot_sustainability):
+#     plotForestBatchData(sustainability, "Iterations", "Non harvestable trees / total amount of trees", title_name="Sustainablility")
 
-if (plot_tree_amount):
-    plotForestBatchData(amount_tree_agriculture, "Iterations", "Amount of agricultural trees", title_name="Amount of Agriculture Trees")
-    plotForestBatchData(amount_tree_immune, "Iterations", "Amount of immune trees", title_name="Amount of Immune Trees")
+# if (plot_tree_amount):
+#     plotForestBatchData(amount_tree_agriculture, "Iterations", "Amount of agricultural trees", title_name="Amount of Agriculture Trees")
+#     plotForestBatchData(amount_tree_immune, "Iterations", "Amount of immune trees", title_name="Amount of Immune Trees")
     
 # Calculate averages.
 wood_outcome_avg = np.mean(wood_outcome, axis=0)
@@ -136,21 +136,34 @@ amount_tree_immune_avg = np.mean(amount_tree_immune, axis=0)
 if (plot_wood_outcome):
     plotForestBatchDataAvg(wood_outcome_avg, "Iterations", "Wood outcome", [min_age_agriculture, min_age_immune], None, ["Min age agriculture", "Min age immune"], title_name="Average Wood Outcome")
 
-if (plot_infected_amount):
-    plotForestBatchDataAvg(infected_amount_avg, "Iterations", "Amount of infected trees", title_name="Average Infected Amount")
+# if (plot_infected_amount):
+#     plotForestBatchDataAvg(infected_amount_avg, "Iterations", "Amount of infected trees", title_name="Average Infected Amount")
 
-if (plot_empty_areas):
-    plotForestBatchDataAvg(amount_empty_areas_avg, "Iterations", "Amount of empty areas", title_name="Average Amount of Empty Areas")
+# if (plot_empty_areas):
+#     plotForestBatchDataAvg(amount_empty_areas_avg, "Iterations", "Amount of empty areas", title_name="Average Amount of Empty Areas")
 
+# This is probably not going to be used in the poster.
 if (plot_sustainability):
     plotForestBatchDataAvg(sustainability_avg, "Iterations", "Non harvestable trees / total amount of trees", title_name="Average Sustainablility")
 
-if (plot_tree_amount):
-    plt.plot(range(len(amount_tree_agriculture_avg)), amount_tree_agriculture_avg, label="Agriculture Trees")
+# if (plot_tree_amount):
+#     plt.plot(range(len(amount_tree_agriculture_avg)), amount_tree_agriculture_avg, label="Agriculture Trees")
+#     plt.plot(range(len(amount_tree_immune_avg)), amount_tree_immune_avg, label="Immune Trees")
+#     plt.xlabel("Iterations")
+#     plt.ylabel("Number of Trees")
+#     plt.title("Average Number of Trees")
+#     plt.legend()
+#     plt.show()
+    
+# Plot all states in the same plot. This might be the most resonable to have in the poster.
+if (plot_tree_amount) & (plot_empty_areas) & (plot_infected_amount):
+    plt.plot(range(len(amount_tree_agriculture_avg)), amount_tree_agriculture_avg, label="Susceptible Trees")
     plt.plot(range(len(amount_tree_immune_avg)), amount_tree_immune_avg, label="Immune Trees")
+    plt.plot(range(len(amount_empty_areas_avg)), amount_empty_areas_avg, label="Empty Spots")
+    plt.plot(range(len(infected_amount_avg)), infected_amount_avg, label="Infected Trees")
     plt.xlabel("Iterations")
-    plt.ylabel("Number of Trees")
-    plt.title("Average Number of Trees")
+    plt.ylabel("Amount")
+    plt.title("Average Number of Trees and Empty Spots")
     plt.legend()
     plt.show()
     
