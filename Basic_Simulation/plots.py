@@ -36,3 +36,34 @@ def plotPhaseDiagram(phase_diagram):
     plt.matshow(phase_diagram)
     plt.colorbar()
 
+def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y = None, line_name = None, title_name=None):
+    
+    batch_size = forest_data.shape[0]
+    for i in range(batch_size):
+        plt.plot(range(len(forest_data[i])), forest_data[i])
+    
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title_name)
+    
+    if vline_x != None:
+        if (type(vline_x) == list):
+            for i in range(len(vline_x)):
+                plt.axvline(vline_x[i], linestyle="dashed")
+        else:
+            plt.axvline(vline_x, linestyle="dashed")
+    
+    if hline_y != None:
+        if (type(hline_y) == list):
+            for i in range(len(hline_y)):
+                plt.axvline(hline_y[i], linestyle="dashed")
+        else:
+            plt.axvline(hline_y, linestyle="dashed")
+    if (line_name != None):
+        line_name_list = [line_name] if (type(line_name) != list) else line_name
+        if (batch_size > 1):
+            plt.legend(["Run " + str(i) for i in range(batch_size)] + line_name_list)
+    else:
+        if (batch_size > 1):
+            plt.legend(["Run " + str(i) for i in range(batch_size)])
+    plt.show()
