@@ -22,9 +22,9 @@ p_tree_1_conv_growth = np.array([0.005, 0.005, 0.005])
 p_tree_2_conv_growth = 0.01 - p_tree_1_conv_growth
 infection_time = 10 # Number of steps an infection lasts
 iterations = 300 # Amount of simulation loops
-relative_growth = 0.1 # Relative growth of tree 2 to tree 1 for harvest
-min_age_agriculture = 25 # Minimum age of tree 1 until harvest
-min_age_immune = 50 # Minimum age of tree 2 tree until harvest
+relative_growth = 2 # Relative growth of tree 2 to tree 1 for harvest
+min_age_agriculture = 45 # Minimum age of tree 1 until harvest
+min_age_immune = 80 # Minimum age of tree 2 tree until harvest
 
 grow_trees = True
 infect_trees = True
