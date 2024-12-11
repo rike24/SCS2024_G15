@@ -8,6 +8,7 @@ from initialize_forest import InitializeForest
 from tree_death import TreeDeath
 from sustainability_check import SustainabilityCheck
 from plots import plotForestData
+from conv_grow_trees_TS import ConvGrowTrees
 
 # Simulation parameters
 forest_size = 100  # Sides of the forest
@@ -16,8 +17,10 @@ p_infection = 1/(forest_size ** 2 * 20) # Infection probability
 p_spread = 0.01 # Spreading probability
 p_tree_1_growth = np.array([1.0, 1.0, 1.0]) # Probability of tree 1 growth for each forest
 p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
+p_tree_1_conv_growth = np.array([0.005, 0.005, 0.005])
+p_tree_2_conv_growth = 0.01 - p_tree_1_conv_growth
 infection_time = 10 # Number of steps an infection lasts
-iterations = 1000 # Amount of simulation loops
+iterations = 300 # Amount of simulation loops
 relative_growth = 0.1 # Relative growth of tree 2 to tree 1 for harvest
 min_age_agriculture = 25 # Minimum age of tree 1 until harvest
 min_age_immune = 50 # Minimum age of tree 2 tree until harvest
@@ -33,10 +36,10 @@ initial_forest_value = [-1, -2, -1] # The initial value of the forest before add
 use_patches =         [False, True, False]
 patch_offset_x =      [0,     0,     0]
 patch_offset_y =      [0,     0,     0]
-patch_width =         [5,     10,    5]
-patch_height =        [5,     10,    5]
-patch_hspacing =      [1,     5,     1]
-patch_vspacing =      [1,     5,     1]
+patch_width =         [10,     10,    5]
+patch_height =        [10,     10,    5]
+patch_hspacing =      [2,     4,     1]
+patch_vspacing =      [2,     4,     1]
 patch_value =         [-1,   -1,    -1]
 
 use_random_placements = [False, False, True]
@@ -45,7 +48,7 @@ tree_2_probability =    [0.2, 0.7, 0.25]
 use_distribution_of_forest = [-1, -1, 1]
 
 plot_forest = True
-iterations_to_plots = 100
+iterations_to_plots = 5
 plot_wood_outcome = True
 plot_infected_amount = True
 plot_sustainability = True
@@ -94,14 +97,15 @@ for i in range(forest_amount):
         
         amount_tree_agriculture[i, j] = np.sum(forest == -1)
         amount_tree_immune[i, j] = np.sum(forest == -2)
-        amount_empty_areas[i, j] = np.sum(forest == 0) / np.sum(forests[i] == -1)
-        infected_amount[i, j] = np.sum(forest == 1) / np.sum(forests[i] == -1)
+        amount_empty_areas[i, j] = np.sum(forest == 0) / np.sum(forest == -1)
+        infected_amount[i, j] = np.sum(forest == 1) / (np.sum(forest == -1) + np.sum(forest == 1))
         
         forest, age_list, infection_time_list = TreeDeath(forest, age_list, infection_time, infection_time_list)
         
         # Grow trees at empty areas
         if (grow_trees):
             forest = GrowTrees(forest, p_growth, p_tree_1_growth[i], p_tree_2_growth[i])
+            forest = ConvGrowTrees(forest, p_tree_1_conv_growth[i], p_tree_2_conv_growth[i])
         
         # Infect trees at random with given probability
         if (infect_trees):
