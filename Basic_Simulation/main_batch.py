@@ -15,14 +15,14 @@ from conv_grow_trees_TS import ConvGrowTrees
 # Simulation parameters
 forest_size = 100  # Sides of the forest
 p_growth = 0.005  # Growth probability
-p_infection = 1/(forest_size ** 2 * 20) # Infection probability
-p_spread = 0.01 # Spreading probability
+p_infection = 1/(forest_size ** 2 * 100) # Infection probability
+p_spread = 0.04 # Spreading probability
 #p_tree_1_growth = np.array([1.0, 1.0, 1.0]) # Probability of tree 1 growth for each forest
 #p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
 #p_tree_1_conv_growth = np.array([0.005, 0.005, 0.005])
 #p_tree_2_conv_growth = 0.01 - p_tree_1_conv_growth
 infection_time = 10 # Number of steps an infection lasts
-iterations = 1000 # Amount of simulation loops
+iterations = 300 # Amount of simulation loops
 relative_growth = 2 # Relative growth of tree 2 to tree 1 for harvest
 min_age_agriculture = 45 # Minimum age of tree 1 until harvest
 min_age_immune = 80 # Minimum age of tree 2 tree until harvest
@@ -41,7 +41,7 @@ plot_tree_amount = True
 plot_empty_areas = True
 
 # Initialize lists for batch run.
-batch_size = 5 
+batch_size = 2
 wood_outcome = np.zeros((batch_size, iterations))
 infected_amount = np.zeros((batch_size, iterations))
 sustainability = np.zeros((batch_size, iterations))
@@ -49,8 +49,18 @@ amount_tree_agriculture = np.zeros((batch_size, iterations))
 amount_tree_immune = np.zeros((batch_size, iterations))
 amount_empty_areas = np.zeros((batch_size, iterations))
 
+def InitializeInfection(forest):
+    infected = False
+    while(not infected):
+        x = np.random.randint(0, forest.shape[1])
+        y = np.random.randint(0, forest.shape[0])
+        
+        if (forest[y, x] == -1):
+            forest[y, x] = 1
+            infected = True
+    return forest
 # Choose forest to be generated: 0, 1 or 2.
-forest_type = 0
+forest_type = 2
 if forest_type == 0:
     p_tree_1_growth = 1
     p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
@@ -93,6 +103,9 @@ for i in range(batch_size):
         
         # Infect trees at random with given probability
         if (infect_trees):
+            if j == 0:
+                forest = InitializeInfection(forest)
+            
             forest[(np.random.rand(forest_size, forest_size) < p_infection) & (forest == -1)] = 1
         
         # Spread disease from already infected trees
