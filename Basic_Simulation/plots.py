@@ -33,10 +33,14 @@ def plotForestData(forest_data, x_label, y_label, vline_x = None, hline_y = None
     
     
 def plotPhaseDiagram(phase_diagram, xlabel, ylabel):
-    plt.matshow(phase_diagram)
+    #plt.matshow(phase_diagram)   
+    #plt.show()
+    plt.imshow(phase_diagram, extent= [0,0.06,0,60], aspect= "auto")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.colorbar()
+    plt.show()
+    
 
 def plotForestBatchData(forest_data, x_label, y_label, vline_x = None, hline_y = None, line_name = None, title_name=None):
     
