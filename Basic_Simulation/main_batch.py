@@ -81,8 +81,8 @@ for i in range(batch_size):
         
         amount_tree_agriculture[i, j] = np.sum(forest == -1)
         amount_tree_immune[i, j] = np.sum(forest == -2)
-        amount_empty_areas[i, j] = np.sum(forest == 0) / np.sum(forest == -1)
-        infected_amount[i, j] = np.sum(forest == 1) / (np.sum(forest == -1) + np.sum(forest == 1))
+        amount_empty_areas[i, j] = np.sum(forest == 0)# / np.sum(forest == -1)
+        infected_amount[i, j] = np.sum(forest == 1)# / (np.sum(forest == -1) + np.sum(forest == 1))
         
         forest, age_list, infection_time_list = TreeDeath(forest, age_list, infection_time, infection_time_list)
         
