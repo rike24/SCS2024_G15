@@ -32,10 +32,10 @@ def plotForestData(forest_data, x_label, y_label, vline_x = None, hline_y = None
     plt.show()
     
     
-def plotPhaseDiagram(phase_diagram, xlabel, ylabel):
+def plotPhaseDiagram(phase_diagram, xmin, xmax, ymin, ymax, xlabel, ylabel):
     #plt.matshow(phase_diagram)   
     #plt.show()
-    plt.imshow(phase_diagram, extent= [0,0.06,0,60], aspect= "auto")
+    plt.imshow(phase_diagram, extent= [xmin, xmax, ymax, ymin], aspect= "auto")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.colorbar()
