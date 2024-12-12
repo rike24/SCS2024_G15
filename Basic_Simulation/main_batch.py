@@ -15,7 +15,7 @@ from conv_grow_trees_TS import ConvGrowTrees
 # Simulation parameters
 forest_size = 100  # Sides of the forest
 p_growth = 0.005  # Growth probability
-p_infection = 1/(forest_size ** 2 * 100) # Infection probability
+p_infection = 1/(forest_size ** 2 * 10) # Infection probability
 p_spread = 0.04 # Spreading probability
 #p_tree_1_growth = np.array([1.0, 1.0, 1.0]) # Probability of tree 1 growth for each forest
 #p_tree_2_growth = 1 - p_tree_1_growth # Probability of tree 2 growth for each forest
@@ -146,8 +146,8 @@ amount_tree_agriculture_avg = np.mean(amount_tree_agriculture, axis=0)
 amount_tree_immune_avg = np.mean(amount_tree_immune, axis=0)
 
 # Plot averages.
-if (plot_wood_outcome):
-    plotForestBatchDataAvg(wood_outcome_avg, "Iterations", "Wood outcome", [min_age_agriculture, min_age_immune], None, ["Min age agriculture", "Min age immune"], title_name="Average Wood Outcome")
+#if (plot_wood_outcome):
+#    plotForestBatchDataAvg(wood_outcome_avg, "Iterations", "Wood outcome", [min_age_agriculture, min_age_immune], None, ["Min age agriculture", "Min age immune"], title_name="Average Wood Outcome")
 
 # if (plot_infected_amount):
 #     plotForestBatchDataAvg(infected_amount_avg, "Iterations", "Amount of infected trees", title_name="Average Infected Amount")
@@ -156,8 +156,8 @@ if (plot_wood_outcome):
 #     plotForestBatchDataAvg(amount_empty_areas_avg, "Iterations", "Amount of empty areas", title_name="Average Amount of Empty Areas")
 
 # This is probably not going to be used in the poster.
-if (plot_sustainability):
-    plotForestBatchDataAvg(sustainability_avg, "Iterations", "Non harvestable trees / total amount of trees", title_name="Average Sustainablility")
+#if (plot_sustainability):
+#    plotForestBatchDataAvg(sustainability_avg, "Iterations", "Non harvestable trees / total amount of trees", title_name="Average Sustainablility")
 
 # if (plot_tree_amount):
 #     plt.plot(range(len(amount_tree_agriculture_avg)), amount_tree_agriculture_avg, label="Agriculture Trees")
@@ -178,5 +178,6 @@ if (plot_tree_amount) & (plot_empty_areas) & (plot_infected_amount):
     plt.ylabel("Amount")
     plt.title("Average Number of Trees and Empty Spots")
     plt.legend()
+    plt.savefig(f"plots/poster_plots/batch_plot_forest_{forest_type}.png", format="png", dpi=200)
     plt.show()
     
