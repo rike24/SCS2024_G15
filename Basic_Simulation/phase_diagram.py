@@ -41,11 +41,11 @@ def PhaseDiagram(forest, iterations, infection_time,
                 temp_forest[(np.random.rand(temp_forest.shape[0], temp_forest.shape[1] ) < p_infection) & (temp_forest == -1)] = 1
                 
                 # Spread disease from already infected trees
-                
                 temp_forest = SpreadDisease(temp_forest, age_list, temp_infection_time, temp_p_spread)
-                              
+                
                 # Update age
                 age_list, infection_time_list = AgeCounter(age_list, infection_time_list, temp_forest)
                 
             wood_outcome[i, j] = HarvestForest(temp_forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
+    
     return wood_outcome
