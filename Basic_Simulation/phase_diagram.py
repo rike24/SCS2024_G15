@@ -17,12 +17,23 @@ def PhaseDiagram(forest, iterations, infection_time,
     
     wood_outcome = np.zeros((iterations, len(infection_time), len(p_spread)))
     
+    def InitializeInfection(forest):
+        infected = False
+        while(not infected):
+            x = np.random.randint(0, forest.shape[1])
+            y = np.random.randint(0, forest.shape[0])
+            
+            if (forest[y, x] == -1):
+                forest[y, x] = 1
+                infected = True
+        return forest
+    
     for i in range(len(infection_time)):
         
         for j in range(len(p_spread)):
             print("infection_time: ", i, "p_spread", j)
-            temp_p_spread = p_spread[j]
             temp_infection_time = infection_time[i]
+            temp_p_spread = p_spread[j]
             
             temp_forest = np.copy(forest)
             age_list = np.zeros(forest.shape)
@@ -37,7 +48,8 @@ def PhaseDiagram(forest, iterations, infection_time,
                 temp_forest = ConvGrowTrees(temp_forest, p_tree_1_conv_growth, p_tree_2_conv_growth)
                 
                 # Infect trees at random with given probability
-                
+                if k == 0:
+                    temp_forest = InitializeInfection(temp_forest)
                 temp_forest[(np.random.rand(temp_forest.shape[0], temp_forest.shape[1] ) < p_infection) & (temp_forest == -1)] = 1
                 
                 # Spread disease from already infected trees
@@ -47,5 +59,4 @@ def PhaseDiagram(forest, iterations, infection_time,
                 age_list, infection_time_list = AgeCounter(age_list, infection_time_list, temp_forest)
                 
                 wood_outcome[k, i, j] = HarvestForest(temp_forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
-    
     return wood_outcome
