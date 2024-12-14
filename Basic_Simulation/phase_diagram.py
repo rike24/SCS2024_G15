@@ -15,7 +15,7 @@ def PhaseDiagram(forest, iterations, infection_time,
                  p_tree_1_conv_growth, p_tree_2_conv_growth, p_infection, p_spread, min_age_agriculture, min_age_immune, relative_growth ):
     
     
-    wood_outcome = np.zeros((len(infection_time), len(p_spread)))
+    wood_outcome = np.zeros((iterations, len(infection_time), len(p_spread)))
     
     for i in range(len(infection_time)):
         
@@ -46,6 +46,6 @@ def PhaseDiagram(forest, iterations, infection_time,
                 # Update age
                 age_list, infection_time_list = AgeCounter(age_list, infection_time_list, temp_forest)
                 
-            wood_outcome[i, j] = HarvestForest(temp_forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
+                wood_outcome[k, i, j] = HarvestForest(temp_forest, age_list, min_age_agriculture, min_age_immune, relative_growth)
     
     return wood_outcome
