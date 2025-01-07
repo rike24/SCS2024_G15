@@ -24,7 +24,7 @@ Further possibilities of our models are the introduction of other diseases.
 
 # Method
 
- - motivate choice of models (choice of forest configurations etc) (Marike)
+ - motivate choice of models (choice of forest configurations etc) (Herman)
 
  - Figures: increase the font size / process plots (Megan)
 
